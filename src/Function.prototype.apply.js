@@ -3,7 +3,6 @@
  * */
 Function.prototype.apply1 = function (context, arr) {
   const ctx = context || window;
-  let args = [];
   let result = null;
 
   ctx.fn = this;
@@ -11,12 +10,13 @@ Function.prototype.apply1 = function (context, arr) {
   if (!arr) {
     result = eval('ctx.fn()');
   } else {
+    let args = [];
     for (let i = 1; i < arr.length; i++) {
       args.push(`arguments[${i}]`)
     }
-  }
 
-  result = eval(`ctx.fn(${args})`);
+    result = eval(`ctx.fn(${args})`);
+  }
 
   delete ctx.fn;
 

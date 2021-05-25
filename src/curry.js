@@ -1,25 +1,14 @@
-/**
- * @description 柯里化实现
- * 将f(a, b, c) 转化为 f(a)(b)(c)
- * */
-function curry(fn, args = []) {
-  const fnArgsLength = fn.length;
-
-  return function () {
-    const _args = args.slice(0);
-    let arg;
-
-    for (let i = 0; i < arguments.length; i++) {
-      arg = arguments[i];
-      _args.push(arg);
-    }
-
-    if (_args.length < fnArgsLength) {
-      return curry.call(this, fn, _args);
-    } else {
-      return fn.apply(this, _args);
-    }
-  }
+// add 1, 2, 3
+function curry(fn, ...args) {
+  return args.length >= fn.length ? fn(...args) : (..._args) => curry(fn, ...args, ..._args)
 }
 
-module.exports = curry;
+function add1(x, y, z) {
+  return x + y + z;
+}
+
+const add = curry(add1);
+
+console.log(add(1, 2, 3));
+console.log(add(1, 2)(3));
+console.log(add(1)(2)(3));
